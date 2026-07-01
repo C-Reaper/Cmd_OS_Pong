@@ -1,6 +1,8 @@
 #include "pong.h"
 #include "framebuffer.h"
 #include "keyboard.h"
+#include "mouse.h"
+#include "font.h"
 #include "renderer.h"
 #include "timer.h"
 
@@ -29,7 +31,6 @@ static void pong_reset_ball(void)
     g_pong.ball_dx = 6;
     g_pong.ball_dy = 3;
 }
-
 static void pong_draw(void)
 {
     renderer_begin(0x00000000);
@@ -42,6 +43,10 @@ static void pong_draw(void)
 
     draw_line(framebuffer_width() / 2, 0, framebuffer_width() / 2, framebuffer_height(), 0xFFFFFF);
     fill_rect(g_pong.ball_x, g_pong.ball_y, g_pong.ball_size, g_pong.ball_size, 0xFFFFFF);
+
+    //fill_rect(mouse_x, mouse_y, 10, 10,0xFFFFFF);
+
+    font_zoom_cstr_render((uint8_t*)"Hello World!",12, 10, 10, 4,0xFFFFFF);
 
     renderer_present();
 }
@@ -58,19 +63,20 @@ void pong_init(void)
     g_pong.score_right = 0;
     pong_reset_ball();
 }
-
 void pong_run(void)
 {
     while (1)
     {
         timer_tick();
         keyboard_update();
+        mouse_update();
+
+        // mouse_is_button_down(1) 
 
         if (keyboard_is_key_down(KEY_W) && g_pong.paddle_left_y > 0)
         {
             g_pong.paddle_left_y -= g_pong.paddle_speed;
         }
-
         if (keyboard_is_key_down(KEY_S) && (g_pong.paddle_left_y + g_pong.paddle_height) < (int32_t)framebuffer_height())
         {
             g_pong.paddle_left_y += g_pong.paddle_speed;
@@ -80,7 +86,6 @@ void pong_run(void)
         {
             g_pong.paddle_right_y -= g_pong.paddle_speed;
         }
-
         if (keyboard_is_key_down(KEY_DOWN) && g_pong.paddle_right_y + g_pong.paddle_height < (int32_t)framebuffer_height())
         {
             g_pong.paddle_right_y += g_pong.paddle_speed;

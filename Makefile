@@ -14,7 +14,9 @@ KERNEL_OBJS = \
 	kernel/framebuffer.o \
 	kernel/renderer.o \
 	kernel/timer.o \
+	kernel/font.o \
 	kernel/keyboard.o \
+	kernel/mouse.o \
 	kernel/memcpy.o \
 	kernel/pong.o
 

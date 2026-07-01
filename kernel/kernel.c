@@ -2,6 +2,7 @@
 
 #include "framebuffer.h"
 #include "keyboard.h"
+#include "mouse.h"
 #include "pong.h"
 #include "timer.h"
 
@@ -72,6 +73,8 @@ void kernel_main(uint32_t magic, uint32_t mb_info_addr)
 
     timer_init(100);
     keyboard_init();
+    mouse_init();
+
     pong_init();
     pong_run();
 }
