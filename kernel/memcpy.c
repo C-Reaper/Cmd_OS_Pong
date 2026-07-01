@@ -15,9 +15,7 @@ void* memcpy(void* dest,
     
     const uint8_t* s8 = (const uint8_t*)src;
     const uint32_t* s32 = (const uint32_t*)src;
-
     const uint32_t count32 = size / sizeof(uint32_t);
-    const uint32_t count8 = size - count32 * sizeof(uint32_t);
 
     uint32_t i = 0U;
 
@@ -48,7 +46,6 @@ void* memset(void* dest,
     
     const uint32_t value32 = (uint32_t)value | ((uint32_t)value << 8) | ((uint32_t)value << 16) | ((uint32_t)value << 24);
     const uint32_t count32 = size / sizeof(uint32_t);
-    const uint32_t count8 = size - count32 * sizeof(uint32_t);
 
     uint32_t i = 0U;
 

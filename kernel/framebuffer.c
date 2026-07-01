@@ -1,8 +1,10 @@
 #include "framebuffer.h"
 #include "memcpy.h"
 
-static uint32_t pbuffer[800 * 600];
-static uint32_t* b_framebuffer;
+#define FRAMEBUFFER_BACKBUFFER_PIXELS (800U * 600U)
+
+static uint32_t pbuffer[FRAMEBUFFER_BACKBUFFER_PIXELS];
+static uint32_t* b_framebuffer = 0;
 static framebuffer_t g_framebuffer = {0};
 
 static uint32_t framebuffer_index(uint32_t x, uint32_t y)
@@ -19,12 +21,12 @@ void framebuffer_init(uint32_t address, uint32_t width, uint32_t height, uint32_
     g_framebuffer.bpp = bpp;
     g_framebuffer.initialized = (address != 0 && width != 0 && height != 0);
 
+    b_framebuffer = pbuffer;
+
     if (g_framebuffer.initialized)
     {
         framebuffer_clear(0x00000000);
     }
-
-    b_framebuffer = pbuffer;
 }
 
 void framebuffer_clear(uint32_t color)
