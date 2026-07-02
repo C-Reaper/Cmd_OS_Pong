@@ -67,6 +67,8 @@ void pong_run(void)
 {
     while (1)
     {
+        timer_timepoint_t frame_start = timer_now();
+        
         timer_tick();
         keyboard_update();
         mouse_update();
@@ -130,8 +132,13 @@ void pong_run(void)
 
         pong_draw();
 
-        for (volatile int i = 0; i < 10000000; i++)
-        {
-        }
+        const timer_timepoint_t frame_end = timer_now();
+        const uint32_t frame_us = timer_microseconds_elapsed(frame_start, frame_end, 3200U);
+        const uint32_t target_us = 16666U;
+        const uint32_t delay_us = target_us - frame_us;
+
+        // 3200MHz / 500 ~ cycles in for-loop
+        if(target_us > frame_us)
+            for (volatile uint32_t i = 0; i < delay_us * 500U; i++){}
     }
 }

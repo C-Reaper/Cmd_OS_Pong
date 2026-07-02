@@ -1,7 +1,7 @@
 CC ?= gcc
 LD ?= ld
 OBJCOPY ?= objcopy
-CFLAGS ?= -m32 -ffreestanding -O2 -Wall -Wextra -fno-pic -fno-pie -nostdlib -Ikernel
+CFLAGS ?= -m32 -mfpmath=387 -ffreestanding -O2 -Wall -Wextra -fno-pic -fno-pie -nostdlib -Ikernel
 LDFLAGS ?= -m elf_i386 -T linker.ld
 
 OBJDIR ?= build
@@ -18,6 +18,7 @@ KERNEL_OBJS = \
 	$(KERNEL_OBJDIR)/framebuffer.o \
 	$(KERNEL_OBJDIR)/renderer.o \
 	$(KERNEL_OBJDIR)/timer.o \
+	$(KERNEL_OBJDIR)/fpu.o \
 	$(KERNEL_OBJDIR)/font.o \
 	$(KERNEL_OBJDIR)/keyboard.o \
 	$(KERNEL_OBJDIR)/mouse.o \

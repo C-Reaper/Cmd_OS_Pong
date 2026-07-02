@@ -81,6 +81,9 @@ start:
     ; Stack 16-byte aligned
     and esp, 0xFFFFFFF0
 
+    ; Initialize x87 FPU state for floating-point support
+    fninit
+
     ; GRUB Multiboot2
     ; eax = magic
     ; ebx = multiboot information pointer

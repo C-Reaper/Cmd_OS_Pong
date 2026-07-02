@@ -5,6 +5,7 @@
 #include "mouse.h"
 #include "pong.h"
 #include "timer.h"
+#include "fpu.h"
 
 struct multiboot_tag_framebuffer
 {
@@ -71,6 +72,7 @@ void kernel_main(uint32_t magic, uint32_t mb_info_addr)
         framebuffer_init(0, 800, 600, 3200, 32);
     }
 
+    fpu_init();
     timer_init(100);
     keyboard_init();
     mouse_init();
