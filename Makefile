@@ -4,28 +4,34 @@ OBJCOPY ?= objcopy
 CFLAGS ?= -m32 -ffreestanding -O2 -Wall -Wextra -fno-pic -fno-pie -nostdlib -Ikernel
 LDFLAGS ?= -m elf_i386 -T linker.ld
 
+OBJDIR ?= build
+BOOT_OBJDIR := $(OBJDIR)/boot
+KERNEL_OBJDIR := $(OBJDIR)/kernel
+
 KERNEL_ELF = kernel.elf
 OS_IMAGE = os-image.bin
 ISO_IMAGE = pongos.iso
 ISO_ROOT = iso-root
 KERNEL_OBJS = \
-	boot/boot.o \
-	kernel/kernel.o \
-	kernel/framebuffer.o \
-	kernel/renderer.o \
-	kernel/timer.o \
-	kernel/font.o \
-	kernel/keyboard.o \
-	kernel/mouse.o \
-	kernel/memcpy.o \
-	kernel/pong.o
+	$(BOOT_OBJDIR)/boot.o \
+	$(KERNEL_OBJDIR)/kernel.o \
+	$(KERNEL_OBJDIR)/framebuffer.o \
+	$(KERNEL_OBJDIR)/renderer.o \
+	$(KERNEL_OBJDIR)/timer.o \
+	$(KERNEL_OBJDIR)/font.o \
+	$(KERNEL_OBJDIR)/keyboard.o \
+	$(KERNEL_OBJDIR)/mouse.o \
+	$(KERNEL_OBJDIR)/memcpy.o \
+	$(KERNEL_OBJDIR)/pong.o
 
 all: $(ISO_IMAGE)
 
-boot/boot.o: boot/boot.asm
+$(BOOT_OBJDIR)/boot.o: boot/boot.asm
+	mkdir -p $(BOOT_OBJDIR)
 	@nasm -f elf32 -o $@ $<
 
-kernel/%.o: kernel/%.c
+$(KERNEL_OBJDIR)/%.o: kernel/%.c
+	mkdir -p $(KERNEL_OBJDIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(KERNEL_ELF): $(KERNEL_OBJS)
@@ -56,6 +62,6 @@ iso: $(ISO_IMAGE)
 
 clean:
 	rm -f $(OS_IMAGE) $(KERNEL_ELF) $(ISO_IMAGE) $(KERNEL_OBJS)
-	rm -rf $(ISO_ROOT)
+	rm -rf $(ISO_ROOT) $(OBJDIR)
 
 .PHONY: all clean iso run
