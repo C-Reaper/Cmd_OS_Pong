@@ -23,7 +23,9 @@ void keyboard_update(void)
 
 uint8_t keyboard_read_scancode(void)
 {
-    if ((inb(0x64) & 0x01) == 0)
+    uint8_t status = inb(0x64);
+
+    if ((status & 0x01) == 0 || (status & 0x20) != 0)
     {
         return 0;
     }

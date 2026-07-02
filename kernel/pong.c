@@ -44,7 +44,7 @@ static void pong_draw(void)
     draw_line(framebuffer_width() / 2, 0, framebuffer_width() / 2, framebuffer_height(), 0xFFFFFF);
     fill_rect(g_pong.ball_x, g_pong.ball_y, g_pong.ball_size, g_pong.ball_size, 0xFFFFFF);
 
-    //fill_rect(mouse_x, mouse_y, 10, 10,0xFFFFFF);
+    fill_rect(mouse_x, mouse_y, 5, 5,0xFFFFFF);
 
     font_zoom_cstr_render((uint8_t*)"Hello World!",12, 10, 10, 4,0xFFFFFF);
 
